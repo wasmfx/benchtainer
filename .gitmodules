@@ -1,0 +1,12 @@
+[submodule "binaryen"]
+	path = binaryen
+	url = https://github.com/WebAssembly/binaryen
+[submodule "fiber-c"]
+	path = fiber-c
+	url = https://github.com/wasmfx/fiber-c.git
+[submodule "stack-switching"]
+	path = stack-switching
+	url = https://github.com/WebAssembly/stack-switching.git
+[submodule "wasmfxtime"]
+	path = wasmfxtime
+	url = https://github.com/wasmfx/wasmfxtime.git
