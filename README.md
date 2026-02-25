@@ -12,9 +12,9 @@ If you already have a built Docker image, skip to "Use the Image" below.
 
 ### Build the Image
 
-To build the container image, run `sudo docker build .`
+To build the container image, run `sudo docker build . -t benchtainer:latest`
 
-This will produce an image that's in your local docker installation's registry. It is identified by a hash, or you can attach a mnemonic, versioned tag by building with `-t tag:version`.
+This will produce an image that's in your local docker installation's registry. It is identified by a hash, or the tag name given (I.e. "benchtainer". The "latest" is a version that's not essential when identifying it.)
 
 To see what images you have locally, run `sudo docker images`.
 
@@ -22,11 +22,13 @@ To see what images you have locally, run `sudo docker images`.
 
 Using the hash of the image, you can start up a container using
 
-    sudo docker run -d <hash> tail -f /dev/null
+    sudo docker run -d <image> tail -f /dev/null
+
+The <image> is either the hash given when you built it, or a tag like `benchtainer`.
 
 (The "tail -f /dev/null" is the primary command we're asking it to run in the container; we're choosing this because it doesn't exit and we want our container to start up and sit around so we can run experiments in it.
 
-The above command will give you a new hash, which is that of the running container invocation; you'll use that next. (This invocation is what is called a "container" as opposed to the "container image" that we build earlier.)
+The above command will give you another hash, which is that of the running container invocation; you'll use that next. (This invocation is what is called a "container" as opposed to the "container image" that we build earlier.)
 
 Now you can run a command using
 
