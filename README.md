@@ -10,6 +10,11 @@ If you already have a built Docker image, skip to "Use the Image" below.
 
 ### Prereqs
 
+Initialize the git submodules using
+
+    git submodule init
+    git submodule update
+
 ### Build the Image
 
 To build the container image, run `sudo docker build . -t benchtainer:latest`
