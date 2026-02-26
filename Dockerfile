@@ -16,7 +16,7 @@ RUN tar xzf wasi-sdk-30.0-x86_64-linux.tar.gz
 COPY binaryen /binaryen
 WORKDIR /binaryen
 # RUN CC=../wasi-sdk-30.0-x86_64-linux/bin/clang cmake . && make
-RUN CXX=g++ CC=gcc cmake . && CXX=g++ CC=gcc make
+RUN CXX=g++ CC=gcc cmake . && CXX=g++ CC=gcc make -j12
 
 ## Build custom (stack-switching) version of reference interpreter
 
