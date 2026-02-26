@@ -1,8 +1,8 @@
-FROM ubuntu:resolute
+FROM ubuntu:questing
 
 RUN apt-get update
 
-RUN apt-get install -y make curl wget cmake git g++-multilib ocaml-dune ocaml menhir opam rustup
+RUN apt-get install -y make curl wget cmake git g++-multilib ocaml-dune ocaml menhir opam rustup hyperfine linux-tools-generic
 
 ## Unpack wasi-sdk
 
