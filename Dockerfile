@@ -38,12 +38,30 @@ WORKDIR /wasmfxtime
 RUN rustup update 1.82.0   # version that wasmfxtime is written to.
 RUN cargo build
 
+## Virgil
+
+COPY virgil /virgil
+WORKDIR /virgil
+RUN PATH=$PATH:/virgil/bin make
+
+## Wizard
+
+COPY wizard-engine /wizard-engine
+WORKDIR /wizard-engine
+RUN PATH=$PATH:/virgil/bin make -j
+COPY run-virgilly /run-virgilly
+
 ## Build fiber-c
 
 COPY fiber-c /fiber-c
 WORKDIR /fiber-c
 RUN make
 
-# sudo docker run -d d8ef44b1d61b tail -f /dev/null
+## To start up the container:
 
-# sudo docker exec <id> ../wasmfxtime/target/debug/wasmtime run -W=exceptions,function-references,stack-switching hello_wasmfx.wasm
+# sudo docker build .
+# sudo docker run -d <hash> tail -f /dev/null
+# sudo docker exec <instance-hash> ../wasmfxtime/target/debug/wasmtime run -W=exceptions,function-references,stack-switching hello_wasmfx.wasm
+
+## Interesting perf command to run:
+# sudo docker exec heuristic_golick perf stat ../wasmfxtime/target/debug/wasmtime run -W=exceptions,function-references,stack-switching itersum_wasmfx.wasm 20000000

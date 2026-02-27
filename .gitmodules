@@ -10,3 +10,9 @@
 [submodule "wasmfxtime"]
 	path = wasmfxtime
 	url = https://github.com/wasmfx/wasmfxtime.git
+[submodule "virgil"]
+	path = virgil
+	url = git@github.com:titzer/virgil.git
+[submodule "wizard-engine"]
+	path = wizard-engine
+	url = git@github.com:titzer/wizard-engine.git
