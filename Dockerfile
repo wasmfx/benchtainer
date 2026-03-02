@@ -65,3 +65,6 @@ RUN make
 
 ## Interesting perf command to run:
 # sudo docker exec heuristic_golick perf stat ../wasmfxtime/target/debug/wasmtime run -W=exceptions,function-references,stack-switching itersum_wasmfx.wasm 20000000
+
+## For wizard:
+# /wizard-engine/bin/wizeng.x86-64-linux --ext:stack-switching /fiber-c/itersum_wasmfx.wasm 20000000
