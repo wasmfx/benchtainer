@@ -63,6 +63,9 @@ COPY go-examples /go-examples
 ADD contents/Makefile /Makefile
 WORKDIR /
 
+## (it would be nice to have a generic hole in the floor of the container to edit files locally and see them in the container.)
+# RUN --mount=type=bind,target=examples,rw
+
 ## To start up the container:
 
 # sudo docker build .
