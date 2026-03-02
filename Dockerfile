@@ -2,7 +2,8 @@ FROM ubuntu:questing
 
 RUN apt-get update
 
-RUN apt-get install -y make curl wget cmake git g++-multilib ocaml-dune ocaml menhir opam rustup hyperfine linux-tools-generic
+# For golang, 1.23 is the first version that supports generators in the language.
+RUN apt-get install -y make curl wget cmake git g++-multilib ocaml-dune ocaml menhir opam rustup hyperfine linux-tools-generic golang-1.23
 
 ## Unpack wasi-sdk
 
@@ -56,6 +57,8 @@ COPY run-virgilly /run-virgilly
 COPY fiber-c /fiber-c
 WORKDIR /fiber-c
 RUN make
+
+COPY go-examples /go-examples
 
 ADD contents/Makefile /Makefile
 WORKDIR /
