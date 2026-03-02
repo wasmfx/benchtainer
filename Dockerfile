@@ -57,6 +57,9 @@ COPY fiber-c /fiber-c
 WORKDIR /fiber-c
 RUN make
 
+ADD contents/Makefile /Makefile
+WORKDIR /
+
 ## To start up the container:
 
 # sudo docker build .
