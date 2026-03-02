@@ -37,7 +37,7 @@ RUN eval $(opam env) make
 COPY wasmfxtime /wasmfxtime
 WORKDIR /wasmfxtime
 RUN rustup update 1.82.0   # version that wasmfxtime is written to.
-RUN cargo build
+RUN cargo build --release  # Note --release, without which we get the debug build, not good for benching.
 
 ## Virgil
 
