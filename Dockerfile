@@ -63,6 +63,12 @@ COPY go-examples /go-examples
 ADD contents/Makefile /Makefile
 WORKDIR /
 
+## Create a python virtual environment and dependencies of our test driver script.
+
+RUN apt install -y python3-venv
+RUN python3 -m venv /venv
+RUN /venv/bin/pip install pyyaml matplotlib numpy
+
 ## (it would be nice to have a generic hole in the floor of the container to edit files locally and see them in the container.)
 # RUN --mount=type=bind,target=examples,rw
 
