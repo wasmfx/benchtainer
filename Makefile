@@ -7,9 +7,6 @@ v8:
 	gclient config
 	gclient --verbose sync
 
-go_itersum.wasm:
-	GOOS=wasip1 GOARCH=wasm /usr/lib/go-1.23/bin/go build -o /go-examples/itersum.wasm /go-examples/itersum.go
-
 container:
 	docker build . -t $(SUDO_USER)-benchtainer:latest
 
