@@ -13,7 +13,7 @@ If you already have a built Docker image, skip to "Use the Image" below.
 Initialize the git submodules using
 
     git submodule init
-    git submodule update
+    git submodule update --init --recursive
 
 ### Build the Image
 
