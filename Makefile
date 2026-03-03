@@ -8,10 +8,10 @@ v8:
 	gclient --verbose sync
 
 go_itersum.wasm:
-	GOOS=wasip1 GOARCH=wasm /usr/lib/go-1.23/bin/go build  -o /go-examples/itersum.wasm /go-examples/itersum.go
+	GOOS=wasip1 GOARCH=wasm /usr/lib/go-1.23/bin/go build -o /go-examples/itersum.wasm /go-examples/itersum.go
 
 container:
-	docker build . -t benchtainer:latest
+	docker build . -t $(SUDO_USER)-benchtainer:latest
 
 launch_container_shell:
 	sudo docker run -i benchtainer /bin/bash
