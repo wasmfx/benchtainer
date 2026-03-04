@@ -3,7 +3,7 @@ FROM ubuntu:questing
 RUN apt-get update
 
 # For golang, 1.23 is the first version that supports generators in the language.
-RUN apt-get install -y make curl wget cmake git g++-multilib ocaml-dune ocaml menhir opam rustup hyperfine linux-tools-generic golang-1.23
+RUN apt-get install -y make curl wget cmake git g++-multilib ocaml-dune ocaml menhir opam rustup hyperfine linux-tools-generic golang-1.23 wabt
 
 ## Unpack wasi-sdk
 
@@ -70,10 +70,12 @@ RUN apt install -y python3-venv
 RUN python3 -m venv /venv
 RUN /venv/bin/pip install pyyaml matplotlib numpy
 
-## (it would be nice to have a generic hole in the floor of the container to edit files locally and see them in the container.)
-# RUN --mount=type=bind,target=examples,rw
+# Putting emacs in the container for my convenience right now. Later we should set it up so that we can just edit source files outside the container.
+RUN apt install -y emacs
 
 ## To start up the container:
+
+# (instructions here are getting pulled into the Makefile)
 
 # sudo docker build .
 # sudo docker run -d <hash> tail -f /dev/null
