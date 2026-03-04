@@ -5,47 +5,41 @@ import "os"
 import "fmt"
 import "time"
 
-type pair struct {
-  v int
-  stop bool
-}
-
 // Generate some numbers. (As it happens, the ones from 0..n.)
 // Send them on the given channel.
-func generator(c chan pair, n int) {
-  for i := 0; i < n; i++ {
-    c <- pair{i, false}
+func generator(c chan int32, n int32) {
+  for i := int32(0); i < n; i++ {
+    c <- i
   }
-  // Send a stop signal.
-  c <- pair{0, true}
+  close(c)
 }
 
 // Sum up the numbers sent on the given channcel.
-func summer(c chan pair) int {
-  result := 0
+func summer(c chan int32) int32 {
+  result := int32(0)
   for {
-    p := <- c
-    if p.stop {
+    p, more := <- c
+    if !more {
       break
     }
-    result += p.v
+    result += p
   }
   return result
 }
 
-func runsum(n int) {
-  c := make(chan pair);
+func runsum(n int32) {
+  c := make(chan int32);
   go generator(c, n);
   summer(c);
 }
 
 func main() {
   first, err := strconv.Atoi(os.Args[1])
-  if err != nil { panic("arg not parsed as int") }
+  if err != nil { panic("arg not parsed as int32") }
   last, err := strconv.Atoi(os.Args[2])
-  if err != nil { panic("arg not parsed as int") }
+  if err != nil { panic("arg not parsed as int32") }
   
-  for i := first; i <= last; i++ {
+  for i := int32(first); i <= int32(last); i++ {
     start := time.Now()
     runsum(i * 1000000)
     fmt.Println(i)
