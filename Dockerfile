@@ -61,6 +61,7 @@ RUN make
 COPY go-examples /go-examples
 
 ADD contents/Makefile /Makefile
+ADD contents/run_and_log.sh /run_and_log.sh
 WORKDIR /
 
 ## Create a python virtual environment and dependencies of our test driver script.
