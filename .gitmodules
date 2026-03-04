@@ -22,3 +22,6 @@
 [submodule "go"]
 	path = go
 	url = https://go.googlesource.com/go
+[submodule "wasmfx-tools"]
+	path = wasmfx-tools
+	url = git@github.com:wasmfx/wasmfx-tools.git
