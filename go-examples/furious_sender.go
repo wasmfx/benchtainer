@@ -27,7 +27,6 @@ func runsum(n int) {
       fmt.Println(time.Since(start))
     }
   }
-  //d <- 7
 }
 
 func main() {
