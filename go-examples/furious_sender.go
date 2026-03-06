@@ -19,7 +19,7 @@ func runsum(n int) {
   // no consumer. So to test raw sends, we use a large channel depth.
   c := make(chan int, n+1)
   // You can also test send+receive together using this consumer; in that case set the depth to n-1.
-  // go consumer(c)
+  go consumer(c)
   start := time.Now()
   for i := 0; i < n; i++ {
     c <- i
