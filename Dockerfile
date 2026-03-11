@@ -70,9 +70,6 @@ RUN apt install -y python3-venv
 RUN python3 -m venv /venv
 RUN /venv/bin/pip install pyyaml matplotlib numpy
 
-# Putting emacs in the container for my convenience right now. Later we should set it up so that we can just edit source files outside the container.
-RUN apt install -y emacs
-
 ## To start up the container:
 
 # (instructions here are getting pulled into the Makefile)
