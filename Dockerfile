@@ -1,6 +1,6 @@
 FROM ubuntu:questing
 
-RUN apt-get update
+RUN apt-get update --fix-missing
 
 # For golang, 1.23 is the first version that supports generators in the language.
 RUN apt-get install -y make curl wget cmake git g++-multilib ocaml-dune ocaml menhir opam rustup hyperfine linux-tools-generic golang-1.23 wabt
