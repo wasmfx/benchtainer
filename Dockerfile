@@ -74,6 +74,8 @@ ADD contents/Makefile /Makefile
 ## Other useful scripts from contents/
 ## This one is for running a command and logging the output (e.g. for perf stat runs).
 ADD contents/run_and_log.sh /run_and_log.sh
+ADD contents/justfile /justfile
+
 WORKDIR /
 
 ## Create a python virtual environment and dependencies of our test driver script.
@@ -95,3 +97,5 @@ RUN /venv/bin/pip install pyyaml matplotlib numpy
 
 ## For wizard:
 # /wizard-engine/bin/wizeng.x86-64-linux --ext:stack-switching /fiber-c/itersum_wasmfx.wasm 20000000
+
+RUN apt-get install -y just

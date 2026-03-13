@@ -1,0 +1,11 @@
+wasmtime *ARGS:
+	/wasmfxtime/target/release/wasmtime run -W=exceptions,function-references,stack-switching {{ARGS}}
+
+perf_stat_wasmtime *ARGS:
+	perf stat /wasmfxtime/target/release/wasmtime run -W=exceptions,function-references,stack-switching {{ARGS}}
+
+wizard *ARGS:
+	/wizard-engine/bin/wizeng.x86-64-linux --ext:stack-switching {{ARGS}}
+
+perf_stat_wizard *ARGS:
+	perf stat /wizard-engine/bin/wizeng.x86-64-linux --ext:stack-switching {{ARGS}}
