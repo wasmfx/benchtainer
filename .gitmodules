@@ -25,3 +25,6 @@
 [submodule "wasmfx-tools"]
 	path = wasmfx-tools
 	url = git@github.com:wasmfx/wasmfx-tools.git
+[submodule "waeio"]
+	path = waeio
+	url = https://github.com/wasmfx/waeio
