@@ -84,16 +84,7 @@ RUN apt install -y python3-venv
 RUN python3 -m venv /venv
 RUN /venv/bin/pip install pyyaml matplotlib numpy
 
-## To start up the container:
-
-# (instructions here are getting pulled into the Makefile)
-
-# sudo docker build .
-# sudo docker run -d <hash> tail -f /dev/null
-# sudo docker exec <instance-hash> ../wasmfxtime/target/debug/wasmtime run -W=exceptions,function-references,stack-switching hello_wasmfx.wasm
-
-## Interesting perf command to run:
-# sudo docker exec heuristic_golick perf stat ../wasmfxtime/target/debug/wasmtime run -W=exceptions,function-references,stack-switching itersum_wasmfx.wasm 20000000
+## To start up the container, see commands in the benchtainer Makefile.
 
 ## For wizard:
 # /wizard-engine/bin/wizeng.x86-64-linux --ext:stack-switching /fiber-c/itersum_wasmfx.wasm 20000000
