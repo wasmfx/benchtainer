@@ -64,9 +64,15 @@ COPY fiber-c /fiber-c
 WORKDIR /fiber-c
 RUN make
 
+## Go code to run. Normally we will bind-mount these, but the state as of the container
+## build is copied in in case you want to run them anyway.
+
 COPY go-examples /go-examples
 
+## The contents/Makefile has some useful commands for running things in the container.
 ADD contents/Makefile /Makefile
+## Other useful scripts from contents/
+## This one is for running a command and logging the output (e.g. for perf stat runs).
 ADD contents/run_and_log.sh /run_and_log.sh
 WORKDIR /
 
