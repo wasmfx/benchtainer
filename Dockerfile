@@ -52,6 +52,12 @@ WORKDIR /wizard-engine
 RUN PATH=$PATH:/virgil/bin make -j
 COPY run-virgilly /run-virgilly
 
+## Wasmfx-tools
+
+COPY wasmfx-tools /wasmfx-tools
+WORKDIR /wasmfx-tools
+RUN cargo install --locked --path .
+
 ## Build fiber-c
 
 COPY fiber-c /fiber-c
