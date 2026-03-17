@@ -1,6 +1,6 @@
 FROM ubuntu:questing
 
-RUN apt-get update
+RUN apt-get update --fix-missing
 
 # For golang, 1.23 is the first version that supports generators in the language.
 RUN apt-get install -y make curl wget cmake git g++-multilib ocaml-dune ocaml menhir opam rustup hyperfine linux-tools-generic golang-1.23 wabt
@@ -52,16 +52,30 @@ WORKDIR /wizard-engine
 RUN PATH=$PATH:/virgil/bin make -j
 COPY run-virgilly /run-virgilly
 
+## Wasmfx-tools
+
+COPY wasmfx-tools /wasmfx-tools
+WORKDIR /wasmfx-tools
+RUN cargo install --locked --path .
+
 ## Build fiber-c
 
 COPY fiber-c /fiber-c
 WORKDIR /fiber-c
 RUN make
 
+## Go code to run. Normally we will bind-mount these, but the state as of the container
+## build is copied in in case you want to run them anyway.
+
 COPY go-examples /go-examples
 
+## The contents/Makefile has some useful commands for running things in the container.
 ADD contents/Makefile /Makefile
+## Other useful scripts from contents/
+## This one is for running a command and logging the output (e.g. for perf stat runs).
 ADD contents/run_and_log.sh /run_and_log.sh
+ADD contents/justfile /justfile
+
 WORKDIR /
 
 ## Create a python virtual environment and dependencies of our test driver script.
@@ -70,19 +84,9 @@ RUN apt install -y python3-venv
 RUN python3 -m venv /venv
 RUN /venv/bin/pip install pyyaml matplotlib numpy
 
-# Putting emacs in the container for my convenience right now. Later we should set it up so that we can just edit source files outside the container.
-RUN apt install -y emacs
-
-## To start up the container:
-
-# (instructions here are getting pulled into the Makefile)
-
-# sudo docker build .
-# sudo docker run -d <hash> tail -f /dev/null
-# sudo docker exec <instance-hash> ../wasmfxtime/target/debug/wasmtime run -W=exceptions,function-references,stack-switching hello_wasmfx.wasm
-
-## Interesting perf command to run:
-# sudo docker exec heuristic_golick perf stat ../wasmfxtime/target/debug/wasmtime run -W=exceptions,function-references,stack-switching itersum_wasmfx.wasm 20000000
+## To start up the container, see commands in the benchtainer Makefile.
 
 ## For wizard:
 # /wizard-engine/bin/wizeng.x86-64-linux --ext:stack-switching /fiber-c/itersum_wasmfx.wasm 20000000
+
+RUN apt-get install -y just
