@@ -86,7 +86,7 @@ WORKDIR /
 
 ## Create a python virtual environment and dependencies of our test driver script.
 
-RUN apt install -y python3-venv
+RUN apt-get install -y python3-venv
 RUN python3 -m venv /venv
 RUN /venv/bin/pip install pyyaml matplotlib numpy
 
