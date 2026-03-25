@@ -62,7 +62,10 @@ RUN cargo install --locked --path .
 ENV ROOT=
 COPY fiber-c /fiber-c
 WORKDIR /fiber-c
-RUN make
+# The -r flag tells make not to use "implicit rules" from its own catalog of
+# possible ways to make things. This at least got in the way when debugging and
+# is always unhelpful.
+RUN make -r
 
 ## Go code to run. Normally we will bind-mount these, but the state as of the container
 ## build is copied in in case you want to run them anyway.
