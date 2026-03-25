@@ -59,6 +59,10 @@ RUN cargo install --locked --path .
 
 ## Build fiber-c
 
+ENV BINARYEN=/binaryen
+ENV WASI_SDK=/wasi-sdk-30.0-x86_64-linux
+ENV WASM_INTERP=/stack-switching/interpreter/wasm
+ENV WASMTIME=/wasmfxtime/target/release/wasmtime
 COPY fiber-c /fiber-c
 WORKDIR /fiber-c
 RUN make
