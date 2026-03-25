@@ -91,7 +91,4 @@ RUN apt-get install -y just
 
 ## To start up the container, see commands in the benchtainer Makefile.
 
-## For wizard:
-# /wizard-engine/bin/wizeng.x86-64-linux --ext:stack-switching /fiber-c/itersum_wasmfx.wasm 20000000
-
 RUN apt-get install -y just
