@@ -16,7 +16,6 @@ RUN tar xzf wasi-sdk-30.0-x86_64-linux.tar.gz
 
 COPY binaryen /binaryen
 WORKDIR /binaryen
-# RUN CC=../wasi-sdk-30.0-x86_64-linux/bin/clang cmake . && make
 RUN CXX=g++ CC=gcc cmake . && CXX=g++ CC=gcc make -j12
 
 ## Build custom (stack-switching) version of reference interpreter
@@ -60,9 +59,16 @@ RUN cargo install --locked --path .
 
 ## Build fiber-c
 
+ENV BINARYEN=/binaryen
+ENV WASI_SDK=/wasi-sdk-30.0-x86_64-linux
+ENV WASM_INTERP=/stack-switching/interpreter/wasm
+ENV WASMTIME=/wasmfxtime/target/release/wasmtime
 COPY fiber-c /fiber-c
 WORKDIR /fiber-c
-RUN make
+# The -r flag tells make not to use "implicit rules" from its own catalog of
+# possible ways to make things. This at least got in the way when debugging and
+# is always unhelpful.
+RUN make -r
 
 ## Go code to run. Normally we will bind-mount these, but the state as of the container
 ## build is copied in in case you want to run them anyway.
@@ -80,13 +86,11 @@ WORKDIR /
 
 ## Create a python virtual environment and dependencies of our test driver script.
 
-RUN apt install -y python3-venv
+RUN apt-get install -y python3-venv
 RUN python3 -m venv /venv
 RUN /venv/bin/pip install pyyaml matplotlib numpy
+ENV PATH="/venv/bin:$PATH"
 
 ## To start up the container, see commands in the benchtainer Makefile.
-
-## For wizard:
-# /wizard-engine/bin/wizeng.x86-64-linux --ext:stack-switching /fiber-c/itersum_wasmfx.wasm 20000000
 
 RUN apt-get install -y just
