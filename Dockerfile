@@ -113,6 +113,7 @@ WORKDIR /
 RUN apt install -y python3-venv
 RUN python3 -m venv /venv
 RUN /venv/bin/pip install pyyaml matplotlib numpy
+ENV PATH="/venv/bin:$PATH"
 
 RUN apt-get install -y just
 
