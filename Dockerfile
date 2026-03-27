@@ -89,6 +89,7 @@ WORKDIR /
 RUN apt-get install -y python3-venv
 RUN python3 -m venv /venv
 RUN /venv/bin/pip install pyyaml matplotlib numpy
+ENV PATH="/venv/bin:$PATH"
 
 ## To start up the container, see commands in the benchtainer Makefile.
 
