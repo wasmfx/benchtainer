@@ -60,6 +60,7 @@ RUN cargo install --locked --path .
 
 ## Build fiber-c
 
+ENV ROOT=
 COPY fiber-c /fiber-c
 WORKDIR /fiber-c
 RUN make
@@ -83,6 +84,8 @@ WORKDIR /
 RUN apt install -y python3-venv
 RUN python3 -m venv /venv
 RUN /venv/bin/pip install pyyaml matplotlib numpy
+
+RUN apt-get install -y just
 
 ## To start up the container, see commands in the benchtainer Makefile.
 

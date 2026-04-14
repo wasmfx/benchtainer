@@ -13,7 +13,7 @@ go_itersum.wasm:
 container:
 	docker build . -t $(SUDO_USER)-benchtainer:latest
 
-BIND_MOUNTS=--mount type=bind,src=$(PWD)/go-examples,dst=/go-examples --mount type=bind,src=$(PWD)/fiber-c/examples,dst=/fiber-c/examples --mount type=bind,src=$(PWD)/results,dst=/results
+BIND_MOUNTS=--mount type=bind,src=$(PWD)/go-examples,dst=/go-examples --mount type=bind,src=$(PWD)/fiber-c/examples,dst=/fiber-c/examples --mount type=bind,src=$(PWD)/fiber-c/bench_results,dst=/fiber-c/bench_results --mount type=bind,src=$(PWD)/results,dst=/results
 
 launch_container_shell:
 	sudo docker run -it $(BIND_MOUNTS) $(USER)-benchtainer bash
