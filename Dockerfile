@@ -60,6 +60,7 @@ RUN cargo install --locked --path .
 
 ## Build fiber-c
 
+ENV ROOT=
 COPY fiber-c /fiber-c
 WORKDIR /fiber-c
 RUN make
