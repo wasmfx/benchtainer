@@ -33,6 +33,22 @@ Start a container into a shell using
 
 The <image> is either the hash reported when you built it, or a tag like `benchtainer`.
 
+#### Options
+
+Certain actions inside the container will only work if it is running in `--privileged` mode, which is an option to `docker run`.
+
+Examples of this include the `perf` profiling tool and the `setarch` tool that we use to control the executable loader. There seems to be little harm in using `--privileged`, but I typically leave it off by the Principle of Least Privilege.
+
+#### Caveats
+
+When you `docker run` a container and ultimately exit it, the changes you've made inside are effectively discarded.
+
+For our workflow, we want to edit source files and retain output data outside the container.
+
+Therefore I map a bunch of directories into the container using a docker feature called "bind-mount". The options I use to get this feature are displayed in the `Makefile`. So, for ordinary purposes, launch the container shell using `make launch_container_shell` (may need sudo).
+
+Take a look at the options that are used there and you will see which directories are mapped through in that way. It may not include all the dirs you want. Feel free to map more: usually places where you have source files you're editing, or places you want to store output files permanently.
+
 ### Run examples
 
 Once you're in the container, just run commands normally, except that things are located at /fiber-c and /wasmfxtime and so on, rather than in some deeper path. Here's an example command:
@@ -44,3 +60,7 @@ There's also a "justfile" which allows you to run certain common command easily.
     just wasmtime /fiber-c/hello_wasmfx.wasm
 
 which has the binary path and standard args built-in. You can add any additional args as needed. It will also print out the literal (expanded) command, which is useful for benchmarking, say in hyperfine, if you want to get `just` out of the critical path.
+
+### Easy-go commands
+
+Because there are lots of commands that are hard to remember (both for container building and for running wasm engines), I've been putting those commands into various files like Makefile and justfile. I hadn't decided which approach is better, but I think `justfile` is better since you can add arbitrary args to the commands. Look around for one of these files to see if there's something useful you need.
