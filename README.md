@@ -17,46 +17,30 @@ Initialize the git submodules using
 
 ### Build the Image
 
-To build the container image, run `sudo docker build . -t benchtainer:latest`
+To build the container image, run `sudo docker build . -t $USER-benchtainer:latest`
 
-This will produce an image that's in your local docker installation's registry. It is identified by a hash, or the tag name given (I.e. "benchtainer". The "latest" is a version that's not essential when identifying it.)
+This will produce an image that's in your local docker installation's registry. It is identified by a hash, or the tag name given (I.e. "ezra-benchtainer". The "latest" is a version that's not essential when identifying it.)
+
+The username is added as a convention for our group since we are usually working on a shared machine and this tag space is shared. Feel free to choose another reasonable name if you like.
 
 To see what images you have locally, run `sudo docker images`.
 
 ### Use the Image
 
-Using the hash of the image, you can start up a container using
+Start a container into a shell using
 
-    sudo docker run -d <image> tail -f /dev/null
+    sudo docker run -it <image> bash
 
-The <image> is either the hash given when you built it, or a tag like `benchtainer`.
+The <image> is either the hash reported when you built it, or a tag like `benchtainer`.
 
-(The "tail -f /dev/null" is the primary command we're asking it to run in the container; we're choosing this because it doesn't exit and we want our container to start up and sit around so we can run experiments in it.
-
-The above command will give you another hash, which is that of the running container invocation; you'll use that next. (This invocation is what is called a "container" as opposed to the "container image" that we build earlier.)
-
-Now you can run a command using
-
-    sudo docker exec <running-hash> <cmd>
-
-Or you can enter a shell like this:
-
-    sudo docker exec -i <running-hash> bash
-
-(The shell experience turns out to be crap; TODO: look into how to get a better shell experience.)
-
-If you forget the hash or name of the running container, you can use
-
-    sudo docker ps
-
-Note each one has a generated name of two words like flamboyant_beaver or agitated_benz. You can use that instead of the hash.
-
-Destroy one you're done with using
-
-    sudo docker kill <running-hash>
-    
 ### Run examples
 
-So here's an example fiber-c run, if the container you've created is called "flamboyant_beaver":
+Once you're in the container, just run commands normally, except that things are located at /fiber-c and /wasmfxtime and so on, rather than in some deeper path. Here's an example command:
 
-    sudo docker exec flamboyant_beaver ../wasmfxtime/target/debug/wasmtime -W=stack-switching,function-references,exceptions /fiber-c/hello_wasmfx.wasm
+    /wasmfxtime/target/debug/wasmtime -W=stack-switching,function-references,exceptions /fiber-c/hello_wasmfx.wasm
+
+There's also a "justfile" which allows you to run certain common command easily. Rather than remembering the above, I trigger it with
+
+    just wasmtime /fiber-c/hello_wasmfx.wasm
+
+which has the binary path and standard args built-in. You can add any additional args as needed. It will also print out the literal (expanded) command, which is useful for benchmarking, say in hyperfine, if you want to get `just` out of the critical path.
