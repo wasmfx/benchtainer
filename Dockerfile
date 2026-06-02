@@ -30,6 +30,8 @@ RUN tools/dev/gm.py x64.release
 
 ## Unpack wasi-sdk
 
+WORKDIR /
+
 ## curl doesn't work for some reason (0 bytes return). So I use wget.
 # RUN curl -O https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-30/wasi-sdk-30.0-x86_64-linux.tar.gz
 RUN wget https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-30/wasi-sdk-30.0-x86_64-linux.tar.gz
