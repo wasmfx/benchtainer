@@ -66,7 +66,7 @@ WORKDIR /wasmfxtime
 ENV CARGO_HOME=/
 ENV RUSTUP_HOME=/usr/bin
 RUN rustup update 1.82.0   # version that wasmfxtime is written to.
-RUN cargo build --release  # Note --release, without which we get the debug build, not good for benching.
+RUN cargo build --release --features=default,wasmfx_pooling_allocator
 
 ## Virgil
 
