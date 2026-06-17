@@ -2,8 +2,10 @@
 
 package main
 
-import "math/rand"
-import "math"
+import (
+	"math"
+	"math/rand"
+)
 
 // Parameters
 const (
@@ -20,20 +22,29 @@ func monte_carlo(i int64, finished chan bool) {
 	total := 0.0
 
 	rng := rand.New(rand.NewSource(0xC0FFEE + i)) // give each thread a different rng
-	for range YIELDS * BATCH_SIZE {
-		x := rng.Float32()
-		y := rng.Float32()
+	for range YIELDS {
+		for range BATCH_SIZE {
+			x := rng.Float32()
+			y := rng.Float32()
 
-		dist := float64(x*x + y*y)
+			dist := float64(x*x + y*y)
 
-		if math.Abs(dist-1.0) < 0.0000000001 || dist < 1.0 {
-			inside += 1.0
+			if math.Abs(dist-1.0) < 0.0000000001 || dist < 1.0 {
+				inside += 1.0
+			}
+
+			// if (i % 1000000 == 1){
+			//   print(4.0 * inside/total, "\n")
+			// }
+			total += 1.0
+
+		}
+		if PRINT_RESULTS {
+			print((4.0*inside)/total, "\n")
 		}
 
-		// if (i % 1000000 == 1){
-		//   print(4.0 * inside/total, "\n")
-		// }
-		total += 1.0
+		// This is our "yield" to allow other goroutines to run.
+		time.Sleep(1 * time.Millisecond)
 	}
 
 	if PRINT_RESULTS {
