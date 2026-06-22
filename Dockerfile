@@ -67,6 +67,7 @@ ENV CARGO_HOME=/
 ENV RUSTUP_HOME=/usr/bin
 RUN rustup update 1.82.0   # version that wasmfxtime is written to.
 RUN cargo build --release --features=default,wasmfx_pooling_allocator
+RUN cargo build --release -p wasmtime-c-api
 
 ## Virgil
 
