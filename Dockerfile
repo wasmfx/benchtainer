@@ -1,9 +1,7 @@
 FROM ubuntu:noble
 
-RUN apt-get update --fix-missing
-
 # For golang, 1.23 is the first version that supports generators in the language.
-RUN apt-get install -y make curl wget cmake git g++-multilib ocaml-dune ocaml menhir opam rustup hyperfine linux-tools-generic golang-1.23 wabt
+RUN apt-get update && apt-get install -y make curl wget cmake git g++-multilib ocaml-dune ocaml menhir opam rustup hyperfine linux-tools-generic golang-1.23 wabt
 
 ## Build v8
 ##   (first because it is very slow; first makes it less likely to rebuild)
@@ -15,7 +13,7 @@ WORKDIR /v8
 RUN fetch v8
 WORKDIR /v8/v8
 
-RUN apt-get install -y sudo  # Seems ridiculous but the below needs to run sudo.
+RUN apt-get update && apt-get install -y sudo  # Seems ridiculous but the below needs to run sudo.
 RUN ./build/install-build-deps.sh
 
 # what nonsense
@@ -111,12 +109,12 @@ WORKDIR /
 
 ## Create a python virtual environment and dependencies of our test driver script.
 
-RUN apt install -y python3-venv
+RUN apt-get update && apt install -y python3-venv
 RUN python3 -m venv /venv
 RUN /venv/bin/pip install pyyaml matplotlib numpy
 ENV PATH="/venv/bin:$PATH"
 
-RUN apt-get install -y just
+RUN apt-get update && apt-get install -y just
 
 ##
 ## To start up the container, see commands in the benchtainer Makefile.
