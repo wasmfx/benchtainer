@@ -19,6 +19,9 @@ const ACTIVE_CONN = 10000
 const stack_kb = 32
 
 func stack_use(totalkb int32) int32 {
+    // The C version uses some cheeky way of touching specific bytes to page in the
+    // stack, rather than allocating heap memory like this. I'm not sure what all the 
+    // implications of that are.
 	var x = make([]byte, totalkb*1024)
 	result := int32(0)
 	for i := range totalkb {
