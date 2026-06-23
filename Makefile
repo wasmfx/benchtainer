@@ -10,6 +10,12 @@ v8:
 go_itersum.wasm:
 	GOOS=wasip1 GOARCH=wasm /usr/lib/go-1.23/bin/go build  -o /go-examples/itersum.wasm /go-examples/itersum.go
 
+# Building the base V8 container should be necessary only when there are v8
+# changes to pick up, which is rare. The other build ("container") will base
+# itself on the V8 container and include that.
+v8-base-container:
+	docker build . -f v8.Dockerfile -t benchtainer-v8:latest
+
 container:
 	docker build . -t $(SUDO_USER)-benchtainer:latest
 
