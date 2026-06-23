@@ -92,6 +92,26 @@ ENV PATH="/venv/bin:$PATH"
 
 RUN apt-get update && apt-get install -y just
 
+## kotlin
+
+# It seems like kotlin won't build unless we have a single version of the JDK and that's 17.
+RUN apt-get update && apt-get install -y openjdk-17-jdk
+
+COPY kotlin /kotlin
+WORKDIR /kotlin
+# This is a git submdule but inside the container we want gradle to act on it as a non-git checkout.
+RUN rm -rf .git
+RUN which javac
+RUN javac --version
+RUN JAVA_HOME=/usr
+RUN ./gradlew install
+
+# RUN git clone https://github.com/Kotlin/kotlin-wasm-nodejs-template.git
+COPY kotlin-wasm-nodejs-template /kotlin-wasm-nodejs-template
+WORKDIR /kotlin-wasm-nodejs-template
+RUN ./gradlew build
+
+
 ##
 ## To start up the container, see commands in the benchtainer Makefile.
 ##
