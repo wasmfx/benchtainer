@@ -28,3 +28,9 @@
 [submodule "waeio"]
 	path = waeio
 	url = https://github.com/wasmfx/waeio
+[submodule "kotlin"]
+	path = kotlin
+	url = https://github.com/JetBrains/kotlin.git
+[submodule "kotlin-wasm-nodejs-template"]
+	path = kotlin-wasm-nodejs-template
+	url = git@github.com:wasmfx/kotlin-wasm-nodejs-template.git
