@@ -6,15 +6,15 @@ Here are some programs that are written in a concurrent style and that may be su
 
 ## Go
 
-* ebiten examples
-* concurrent-raytracer-go
+* [ebiten examples](https://github.com/hajimehoshi/ebiten/tree/main/examples)
+* [concurrent-raytracer-go](https://github.com/JoshElkind/concurrent-raytracer-go)
 
 ## Kotlin
 
-* compose-multiplatform
+* [compose-multiplatform](https://github.com/jetbrains/compose-multiplatform)
 
 ## C
 
-* httpserver
-* Ezra's ray tracer
+* WAEIO [httpserver](https://github.com/wasmfx/waeio/tree/main/examples/httpserver), matches OCaml example from that benchmarking paper.
+* Ezra's [ray tracer](https://github.com/wasmfx/fiber-c/tree/ray)
 * nginx (big task, converting from non-blocking I/O to fiber-c; going to use Codex)
