@@ -3,6 +3,7 @@
 Here are some programs that are written in a concurrent style and that may be suitable to convert to running on WasmFX:
 
 ## OCaml
+* [eio library example projects](https://github.com/ocaml-multicore/eio/#example-applications)
 
 ## Go
 
