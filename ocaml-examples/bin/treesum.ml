@@ -22,14 +22,12 @@ let rec tree_walker = function
 let () =
   let result = ref 0 in
   let mytree = build_tree(25) in
-    match_with tree_walker mytree
-    { retc = (fun () -> ());
-      exnc = raise;
-      effc = fun (type a) (eff : a Effect.t) ->
-        match eff with
-          | Yield n -> Some (fun (k : (a, _) continuation) ->
+    (match tree_walker mytree with
+      | () -> ()
+      | exception exn -> raise exn
+      | effect Yield n, k ->
           result := !result + n;
-          continue k ())
-          | _ -> None };
+          continue k ()
+      );
     (* Todo: replace this with some output validation *)
     Printf.printf "Sum: %d\n" !result
