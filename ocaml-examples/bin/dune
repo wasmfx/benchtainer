@@ -1,0 +1,9 @@
+; "Default" dune file, compiles executables that run on V8 using wasmfx effects.
+(executables
+ (names itersum treesum)
+ (modules itersum treesum pi scheduler)
+ (modes wasm)
+ (wasm_of_ocaml
+  (compilation_mode whole_program)
+  (flags
+   (:standard --effects=native --opt=3))))

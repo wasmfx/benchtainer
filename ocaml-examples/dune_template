@@ -1,0 +1,8 @@
+(executables
+ (names itersum treesum pi scheduler)
+ (modules itersum treesum pi scheduler)
+ (modes wasm)
+ (wasm_of_ocaml
+  (compilation_mode whole_program)
+  (flags
+   (:standard <FLAGS>))))
