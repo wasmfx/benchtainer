@@ -1,3 +1,7 @@
+#!/bin/bash
+
+set -eu
+
 # dune doesn't seem to support building different executables from the same source file, so we will painstakingly
 # copy the executables to different directories and run them from there.
 
