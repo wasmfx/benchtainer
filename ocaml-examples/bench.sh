@@ -21,8 +21,8 @@ for engine in "${!engine_flags[@]}"; do
   for style in "${!style_flags[@]}"; do
     for opt in "${opt_levels[@]}"; do
       mkdir -p ${engine}_${style}
-      # Copy the contents of `bin` to each new directory
-      cp -r bin/*.ml ${engine}_${style}
+      # Copy the contents of `src` to each new directory
+      cp -r src/*.ml ${engine}_${style}
       # Add a dune file to that directory
       cp dune_template ${engine}_${style}/dune
       # Edit the dune file to use the right compilation flags
