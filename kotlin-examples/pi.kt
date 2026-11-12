@@ -5,7 +5,7 @@ import kotlin.time.measureTime
 val VERBOSE = false;
 
 val batches = 50
-val batchSize = 100_000
+val batchSize = 20_000
 val numTasks = 1000
 
 fun main() {
