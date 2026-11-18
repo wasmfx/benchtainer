@@ -1,0 +1,48 @@
+Kotlin-Itersum-WasmFX-V8-10,000,000:
+
+Hello from Kotlin/Wasm
+
+--- Itersum 10000000 ---
+..............
+Recorded 11 samples
+
+Mean Duration: 890ms
+StdDev Duration: 28ms
+Median Duration: 893
+Min-Max: 878 ; 908
+
+
+Kotlin-Treesum-WasmFX-V8-25:
+
+--- Treesum 25 ---
+..............
+Recorded 11 samples
+
+Mean Duration: 2631ms
+StdDev Duration: 120ms
+Median Duration: 2605
+Min-Max: 2588 ; 2683
+
+
+Kotlin-Treesum-Baseline-V8-25:
+
+--- Treesum 25 ---
+..............
+Recorded 11 samples
+
+Mean Duration: 1898ms
+StdDev Duration: 13ms
+Median Duration: 1898
+Min-Max: 1888 ; 1903
+
+
+Kotlin-Itersum-Baseline-V8-10,000,000:
+
+--- Itersum 10000000 ---
+..............
+Recorded 11 samples
+
+Mean Duration: 278ms
+StdDev Duration: 29ms
+Median Duration: 275
+Min-Max: 272 ; 306
