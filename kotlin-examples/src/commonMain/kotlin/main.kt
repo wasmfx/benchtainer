@@ -82,8 +82,8 @@ suspend fun <T>benchmarkWell(
     }
 
     if (outputMode == OutputMode.CSV) {
-        println("benchmark,mean,stddev,median,min,max,q1,q3,n")
-        println("$name,$mean,$stddev,$median,$min,$max,$q1,$q3,${durations.size}")
+        println("benchmark,language,mean,stddev,median,min,max,q1,q3,n")
+        println("$name,kotlin,$mean,$stddev,$median,$min,$max,$q1,$q3,${durations.size}")
     }
 }
 
