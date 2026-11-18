@@ -13,23 +13,30 @@ enum class OutputMode {
 val outputMode = OutputMode.CSV
 
 fun main(args: Array<String>) {
-    println("Hello from Kotlin/Wasm")
+    if (outputMode == OutputMode.HUMAN) {
+        println("Hello from Kotlin/Wasm")
+    }
 
     MainScope().launch {
         var itersumSize = 10_000_000
-        println("\n# --- Itersum $itersumSize ---")
+        if (outputMode == OutputMode.HUMAN) {
+            println("\n# --- Itersum $itersumSize ---")
+        }
         testItersum(itersumSize)
     }
 
     MainScope().launch {
         var treesumSize = 25
-        println("\n# --- Treesum $treesumSize ---")
+        if (outputMode == OutputMode.HUMAN) {
+            println("\n# --- Treesum $treesumSize ---")
+        }
         testTreesum(treesumSize)
     }
 
     MainScope().launch {
-        println("\n# --- Pi ---")
-
+        if (outputMode == OutputMode.HUMAN) {
+            println("\n# --- Pi ---")
+        }
         simpleBenchmarkWell("pi", ::pi)
     }
 }
