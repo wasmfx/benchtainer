@@ -13,8 +13,10 @@ cp build.gradle.kts-baseline build.gradle.kts
 ./gradlew build
 ${D8} --experimental-wasm-wasmfx \
   build/wasm/packages/kotlin-wasm-nodejs-example/kotlin/kotlin-wasm-nodejs-example.mjs \
-  | sed '/benchmark/ s/$/,style/' \
-  | sed '/benchmark/! s/$/,baseline/'
+  | sed '/benchmark/ s/$/,style,engine/' \
+  | sed '/benchmark/! s/$/,baseline,d8/' \
+  | sed '2,$ {/benchmark,/d}' \
+  > ../tmp/kotlin-results.csv
 
 #######################
 ### Kotlin WasmFX   ###
@@ -24,5 +26,7 @@ cp build.gradle.kts-wasmfx build.gradle.kts
 ./gradlew build
 ${D8} --experimental-wasm-wasmfx \
   build/wasm/packages/kotlin-wasm-nodejs-example/kotlin/kotlin-wasm-nodejs-example.mjs \
-  | sed '/benchmark/ s/$/,style/' \
-  | sed '/benchmark/! s/$/,wasmfx/'
+  | sed '/benchmark/ s/$/,style,engine/' \
+  | sed '/benchmark/! s/$/,wasmfx,d8/' \
+  | sed '1,$ {/benchmark,/d}' \
+  >> ../tmp/kotlin-results.csv

@@ -26,6 +26,11 @@ COLORS = {
 # Load and clean data
 # -----------------------------
 
+# NOTE: I plan to do something different in place of this tmp/ nonsense.
+
+with open("tmp/kotlin-results.csv") as f:
+    kotlin = pd.read_csv(f)
+
 with open("tmp/ocaml-results.csv") as f:
     ocaml = pd.read_csv(f)
 
@@ -37,7 +42,8 @@ with open("tmp/c-results.csv") as f:
 
 df = pd.concat([
     c[["median", "min", "max", "mean", "stddev", "language", "benchmark", "engine", "style"]],
-    ocaml[["median", "min", "max", "mean", "language", "benchmark", "engine", "style"]]
+    ocaml[["median", "min", "max", "mean", "language", "benchmark", "engine", "style"]],
+    kotlin[["median", "min", "max", "mean", "language", "benchmark", "engine", "style"]]
     ]).reset_index(drop=True)
 
 df.columns = df.columns.str.strip()
