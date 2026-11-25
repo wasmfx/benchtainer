@@ -50,4 +50,3 @@ python3 ../../plot_benchmarks.py results/* --benchmarks itersum treesum --engine
 
 # Clean up
 dune clean
-rm -rf d8_cps d8_wasmfx wasmtime_cps wasmtime_wasmfx run-scripts
