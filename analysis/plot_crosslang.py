@@ -115,6 +115,11 @@ fig, ax = plt.subplots(figsize=(8, 4.5))
 # -----------------------------
 
 
+for benchmark in benchmarks:
+    for language in languages:
+        if merged.query("language == @language and benchmark == @benchmark").empty:
+            merged = pd.concat([merged, pd.DataFrame([[np.nan, language, benchmark]], columns=(["ratio", "language", "benchmark"]))])
+
 for i, benchmark in enumerate(benchmarks):
 
     subset = (
