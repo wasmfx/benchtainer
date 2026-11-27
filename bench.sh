@@ -11,3 +11,5 @@ which figlet && figlet kotlin
 
 analysis/merge.sh  # Reconcile and tag data from all the languages into one pot.
 analysis/plot_crosslang.py
+
+(cd fiber-c; analysis/c-results.py bench_results/results/results_*.json)
