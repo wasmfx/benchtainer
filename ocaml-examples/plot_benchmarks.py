@@ -90,6 +90,7 @@ for i, filename in enumerate(info_files):
     with open(filename) as f:
         build_info.update(json.load(f))
 
+
 # Predicates for the hyperfine output json format, to filter results by
 # benchmark, engine, and style (wasmfx vs cps).
 def benchmark_is(result, benchmark):
@@ -104,6 +105,7 @@ def style_is(result, style):
     return result["parameters"]["style"] == style
 
 
+# TODO: Deduplicate this.
 def fetch_one(data, style, benchmark, engine):
     results = [
         x
@@ -111,6 +113,7 @@ def fetch_one(data, style, benchmark, engine):
         if style_is(x, style) and benchmark_is(x, benchmark) and engine_is(x, engine)
     ]
     if len(results) < 1:
+        return None
         raise ValueError(f"No data for {style} {benchmark} {engine}.")
     if len(results) > 1:
         raise ValueError(f"Too many data points for {style} {benchmark} {engine}!")
@@ -152,10 +155,22 @@ def array_positions(ary):
 
 nested_data = organize(data)
 data_means = np.array(
-    [[[cell["mean"] for cell in row] for row in plane] for plane in nested_data]
+    [
+        [
+            [cell["mean"] if cell is not None else np.nan for cell in row]
+            for row in plane
+        ]
+        for plane in nested_data
+    ]
 )
 data_stddev = np.array(
-    [[[cell["stddev"] for cell in row] for row in plane] for plane in nested_data]
+    [
+        [
+            [cell["stddev"] if cell is not None else np.nan for cell in row]
+            for row in plane
+        ]
+        for plane in nested_data
+    ]
 )
 # We now have two numpy arrays whose dimensions are [style][benchmark][engine]
 
@@ -202,7 +217,9 @@ ratio_stddev = ratio * np.sqrt(
 bar_loc = array_positions(ratio)
 
 # Plot the data
-fig, (ax1, ax2) = plt.subplots(2,1, figsize=(10, 10), gridspec_kw={'height_ratios': [3, 1]})
+fig, (ax1, ax2) = plt.subplots(
+    2, 1, figsize=(10, 10), gridspec_kw={"height_ratios": [3, 1]}
+)
 
 for i in range(len(ratio)):
     ax1.bar(
@@ -238,9 +255,10 @@ ax1.errorbar(
 )
 
 # Readability features
-ax1.set(title="Benchmark results (cps time / WasmFX time)", 
-        xlabel="Engine", 
-        ylabel="Speedup (relative to cps)",
+ax1.set(
+    title="Benchmark results (cps time / WasmFX time)",
+    xlabel="Engine",
+    ylabel="Speedup (relative to cps)",
 )
 
 ax1.grid(visible=True, axis="y")
@@ -252,19 +270,21 @@ ax1.axhline(y=1.0, color="r", linestyle="--", linewidth=3, label="WasmFX = cps")
 
 # Add text to ax2
 ax2.axis([0, 10, 0, 10])
-ax2.tick_params(axis='x', colors='white')
-ax2.tick_params(axis='y', colors='white')
+ax2.tick_params(axis="x", colors="white")
+ax2.tick_params(axis="y", colors="white")
 
 # Generate string containing compiler info
 compile_info = "TODO"
 
 # Now put these on the lower subplot.
-ax2.text(0.5, 8, 'Compilation info', weight='bold', fontsize=10)
-ax2.text(0.5, 5.5, compile_info, fontsize=9 )
+ax2.text(0.5, 8, "Compilation info", weight="bold", fontsize=10)
+ax2.text(0.5, 5.5, compile_info, fontsize=9)
 
 # Export figure
 if args.output:
-    plt.savefig(f"{args.output}/relative/relative", bbox_inches="tight")
+    filename = f"{args.output}/relative/relative"
+    print(f"Creating chart at {filename}")
+    plt.savefig(filename, bbox_inches="tight")
 else:
     plt.show()
 
@@ -282,7 +302,9 @@ for i, engine in enumerate(engines):
     bar_loc = array_positions(engine_data)
 
     # Plot data
-    fig, (ax1, ax2) = plt.subplots(2,1, figsize=(10, 10), gridspec_kw={'height_ratios': [3, 1]})
+    fig, (ax1, ax2) = plt.subplots(
+        2, 1, figsize=(10, 10), gridspec_kw={"height_ratios": [3, 1]}
+    )
 
     for j in range(len(styles)):
         ax1.bar(
@@ -317,27 +339,28 @@ for i, engine in enumerate(engines):
     )
 
     # Readability features
-    ax1.set(title=f"Benchmark results (absolute times) for {engine}", 
-        xlabel="Benchmark", 
+    ax1.set(
+        title=f"Benchmark results (absolute times) for {engine}",
+        xlabel="Benchmark",
         ylabel="Time (seconds)",
-)
+    )
     ax1.grid(visible=True, axis="y")
 
     ax1.legend(["WasmFX", "cps"], loc="upper right")
 
     # Add text to ax2
     ax2.axis([0, 10, 0, 10])
-    ax2.tick_params(axis='x', colors='white')
-    ax2.tick_params(axis='y', colors='white')
+    ax2.tick_params(axis="x", colors="white")
+    ax2.tick_params(axis="y", colors="white")
 
-    ax2.text(0.5, 8, 'Compilation info', weight='bold', fontsize=10)
-    ax2.text(0.5, 5.5, compile_info, fontsize=9 )
+    ax2.text(0.5, 8, "Compilation info", weight="bold", fontsize=10)
+    ax2.text(0.5, 5.5, compile_info, fontsize=9)
 
     # Export figure
     if args.output:
-        plt.savefig(
-            f"{args.output}/absolute_engines/absolute_{engine}", bbox_inches="tight"
-        )
+        filename = f"{args.output}/absolute_engines/absolute_{engine}"
+        print(f"Creating chart at {filename}")
+        plt.savefig(filename, bbox_inches="tight")
     else:
         plt.show()
 
@@ -355,7 +378,9 @@ for i, benchmark in enumerate(benches):
     bar_loc = array_positions(bench_data)
 
     # Plot data
-    fig, (ax1, ax2) = plt.subplots(2,1, figsize=(10, 10), gridspec_kw={'height_ratios': [3, 1]})
+    fig, (ax1, ax2) = plt.subplots(
+        2, 1, figsize=(10, 10), gridspec_kw={"height_ratios": [3, 1]}
+    )
 
     for i in range(len(bench_data)):
         ax1.bar(
@@ -391,25 +416,26 @@ for i, benchmark in enumerate(benches):
     )
 
     # Readability features
-    ax1.set(title=f"Benchmark results (absolute times) for {benchmark}", 
-        xlabel="Engine", 
-        ylabel="Time (seconds)",)
+    ax1.set(
+        title=f"Benchmark results (absolute times) for {benchmark}",
+        xlabel="Engine",
+        ylabel="Time (seconds)",
+    )
     ax1.grid(visible=True, axis="y")
     ax1.legend(["WasmFX", "cps"], loc="upper right")
 
     # Add text to ax2
     ax2.axis([0, 10, 0, 10])
-    ax2.tick_params(axis='x', colors='white')
-    ax2.tick_params(axis='y', colors='white')
+    ax2.tick_params(axis="x", colors="white")
+    ax2.tick_params(axis="y", colors="white")
 
-    ax2.text(0.5, 8, 'Compilation info', weight='bold', fontsize=10)
-    ax2.text(0.5, 5.5, compile_info, fontsize=9 )
+    ax2.text(0.5, 8, "Compilation info", weight="bold", fontsize=10)
+    ax2.text(0.5, 5.5, compile_info, fontsize=9)
 
     # Export figure
     if args.output:
-        plt.savefig(
-            f"{args.output}/absolute_benchmarks/absolute_{benchmark}",
-            bbox_inches="tight",
-        )
+        filename = f"{args.output}/absolute_benchmarks/absolute_{benchmark}"
+        print(f"Creating chart at {filename}")
+        plt.savefig(filename, bbox_inches="tight")
     else:
         plt.show()

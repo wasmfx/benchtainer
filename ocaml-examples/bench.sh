@@ -41,7 +41,12 @@ cd _build/default
 for engine in "${!engine_flags[@]}"; do
   for style in "${!style_flags[@]}"; do
     cd ${engine}_${style}
-    hyperfine --warmup 1 --runs 2 --export-json ../../../results/results_${engine}_${style}.json -L benchmark itersum,treesum -L engine $engine -L style $style ../../../run-scripts/{benchmark}_{engine}.sh
+    hyperfine --warmup 1 --runs 2 \
+      --export-json ../../../results/results_${engine}_${style}.json \
+      -L benchmark itersum,treesum \
+      -L engine $engine \
+      -L style $style \
+      ../../../run-scripts/{benchmark}_{engine}.sh
     cd ..
   done
 done
@@ -50,4 +55,3 @@ python3 ../../plot_benchmarks.py results/* --benchmarks itersum treesum --engine
 
 # Clean up
 dune clean
-rm -rf d8_cps d8_wasmfx wasmtime_cps wasmtime_wasmfx run-scripts
